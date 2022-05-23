@@ -1,3 +1,4 @@
+import { deleteReportValidator } from "application/api/validator/report/deleteReportValidator";
 import { TYPES } from "application/config/ioc/types";
 import { Report } from "domain/entity/Report";
 import { IReportRepository } from "domain/repository/ReportRepository";
@@ -29,7 +30,7 @@ import { BaseHttpController, controller, httpDelete, request, response } from "i
 export class DeleteReportController extends BaseHttpController {
     @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
 
-    @httpDelete("/:id" /*, TYPES.AuthorizationMiddleware, ...deleteReportValidator*/)
+    @httpDelete("/:id", TYPES.AuthorizationMiddleware, ...deleteReportValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const report: Report | null = await this.reportRepository.findOneById(request.params.id);
         if (report === null) {

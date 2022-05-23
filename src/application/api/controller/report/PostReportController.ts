@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { TYPES } from "application/config/ioc/types";
 import { ICreateReportDto, ICreateReportService } from "domain/service/report/CreateReportService";
 import { Report } from "domain/entity/Report";
+import { postReportValidator } from "application/api/validator/report/postReportValidator";
 
 /**
  * @swagger
@@ -31,7 +32,7 @@ import { Report } from "domain/entity/Report";
 export class PostReportController extends BaseHttpController {
     @inject(TYPES.CreateReportService) private readonly createReportService: ICreateReportService;
 
-    @httpPost("/" /*, TYPES.AuthorizationMiddleware, ...postReportValidator*/)
+    @httpPost("/", TYPES.AuthorizationMiddleware, ...postReportValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const report: Report = await this.createReportService.create(request.body as ICreateReportDto);
 

@@ -1,6 +1,7 @@
+import { postUserValidator } from "application/api/validator/user/postUserValidator";
 import { TYPES } from "application/config/ioc/types";
 import { User } from "domain/entity/User";
-import { IcreateUserDto, ICreateUserService } from "domain/service/user/CreateExampleService";
+import { IcreateUserDto, ICreateUserService } from "domain/service/user/CreateUserService";
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import { BaseHttpController, controller, httpPost, request, response, TYPE } from "inversify-express-utils";
@@ -31,7 +32,7 @@ import { BaseHttpController, controller, httpPost, request, response, TYPE } fro
 export class PostUserController extends BaseHttpController {
     @inject(TYPES.CreateUserService) private readonly createUserService: ICreateUserService;
 
-    @httpPost("/" /*, TYPES.AuthorizationMiddleware, ...postUserValidator*/)
+    @httpPost("/", TYPES.AuthorizationMiddleware, ...postUserValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User = await this.createUserService.create(request.body as IcreateUserDto);
 

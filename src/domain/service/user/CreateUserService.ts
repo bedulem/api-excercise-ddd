@@ -3,6 +3,7 @@ import { provideSingleton } from "infrastructure/inversify/CustomProviders";
 import { inject } from "inversify";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../../repository/UserRepository";
+import { IIdGeneratorService } from "../id/IdGeneratorService";
 
 /**
  * @swagger
@@ -39,11 +40,15 @@ export class CreateUserService implements ICreateUserService {
         this.userRepository = userRepository;
     }
 
+    @inject(TYPES.UuidGenerator) private readonly uuidGenerator: IIdGeneratorService;
+
+    private readonly uuidgenerator: IIdGeneratorService;
+
     public async create({ email, name, age, country }: IcreateUserDto): Promise<User> {
         const timestamp = (Date.now() / 1000) | 0;
 
         const user: User = {
-            id: " ", //uuid(),
+            id: this.uuidGenerator.getId(),
             email,
             name,
             age,

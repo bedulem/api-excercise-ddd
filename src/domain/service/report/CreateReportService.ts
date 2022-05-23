@@ -1,11 +1,12 @@
 import { TYPES } from "application/config/ioc/types";
-import { Report } from "domain/entity/Report";
+import { Report, ReportStatus } from "domain/entity/Report";
 import { User } from "domain/entity/User";
 import { ServiceValidationException } from "domain/exception/ServiceValidationException";
 import { IReportRepository } from "domain/repository/ReportRepository";
 import { IUserRepository } from "domain/repository/UserRepository";
 import { provideSingleton } from "infrastructure/inversify/CustomProviders";
 import { inject } from "inversify";
+import { IIdGeneratorService } from "../id/IdGeneratorService";
 
 /**
  * @swagger
@@ -27,7 +28,7 @@ export interface ICreateReportDto {
     userId: string;
     title: string;
     content: string;
-    publishAt: number;
+    publishAT: number;
 }
 
 export interface ICreateReportService {
@@ -43,24 +44,25 @@ export class CreateReportService implements ICreateReportService {
     }
 
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
+    @inject(TYPES.UuidGenerator) private readonly uuidGenerator: IIdGeneratorService;
 
-    public async create({ userId, title, content }: ICreateReportDto): Promise<Report> {
+    public async create({ userId, title, content, publishAT }: ICreateReportDto): Promise<Report> {
         const user: User | null = await this.userRepository.findOneById(userId);
         if (user === null) {
             throw new ServiceValidationException(`User with id ${userId} not found`);
         }
 
         const timestamp = (Date.now() / 1000) | 0;
-
+        const statusValue = publishAT < timestamp ? ReportStatus.published : ReportStatus.draft;
         const report: Report = {
-            id: " ", //uuid(),
+            id: this.uuidGenerator.getId(),
             userId,
             title,
             content,
             createdAT: timestamp,
             updatedAT: timestamp,
-            status: 0,
-            publishAt: timestamp,
+            status: statusValue,
+            publishAT: publishAT,
         };
 
         await this.reportRepository.persist(report);

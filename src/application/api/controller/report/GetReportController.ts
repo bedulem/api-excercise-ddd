@@ -1,3 +1,4 @@
+import { getReportValidator } from "application/api/validator/report/getReportValidator";
 import { TYPES } from "application/config/ioc/types";
 import { Report } from "domain/entity/Report";
 import { IReportRepository } from "domain/repository/ReportRepository";
@@ -30,7 +31,7 @@ import { BaseHttpController, controller, httpGet, request, response } from "inve
 export class GetReportController extends BaseHttpController {
     @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
 
-    @httpGet("/:id" /*, ...getReportValidator*/)
+    @httpGet("/:id", ...getReportValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const report: Report | null = await this.reportRepository.findOneById(request.params.id);
         if (report === null) {

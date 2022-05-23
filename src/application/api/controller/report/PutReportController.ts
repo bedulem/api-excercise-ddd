@@ -1,3 +1,4 @@
+import { putReportValidator } from "application/api/validator/report/putReportValidator";
 import { TYPES } from "application/config/ioc/types";
 import { Report } from "domain/entity/Report";
 import { IReportRepository } from "domain/repository/ReportRepository";
@@ -43,7 +44,7 @@ export class PutReportsController extends BaseHttpController {
     @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
     @inject(TYPES.UpdateReportService) private readonly updateReportService: IUpdateReportService;
 
-    @httpPut("/:id" /*, TYPES.AuthorizationMiddleware, ...putReportValidator*/)
+    @httpPut("/:id", TYPES.AuthorizationMiddleware, ...putReportValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const report: Report | null = await this.reportRepository.findOneById(request.params.id);
 

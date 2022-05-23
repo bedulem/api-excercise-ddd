@@ -20,8 +20,8 @@
  *
  */
 export enum ReportStatus {
-    published,
-    draft,
+    published = "published",
+    draft = "draft",
 }
 
 export interface Report {
@@ -32,5 +32,5 @@ export interface Report {
     createdAT: number;
     updatedAT: number;
     status: ReportStatus;
-    publishAt: number;
+    publishAT: number;
 }

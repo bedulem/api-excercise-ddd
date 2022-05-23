@@ -1,5 +1,5 @@
 import { TYPES } from "application/config/ioc/types";
-import { Report } from "domain/entity/Report";
+import { Report, ReportStatus } from "domain/entity/Report";
 import { User } from "domain/entity/User";
 import { ServiceValidationException } from "domain/exception/ServiceValidationException";
 import { IReportRepository } from "domain/repository/ReportRepository";
@@ -26,6 +26,7 @@ export interface IUpdateReportDto {
     userId: string;
     title: string;
     content: string;
+    publishAT: number;
 }
 
 export interface IUpdateReportService {
@@ -42,16 +43,20 @@ export class UpdateReportService implements IUpdateReportService {
 
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
 
-    public async update(report: Report, { userId, title, content }: IUpdateReportDto): Promise<Report> {
+    public async update(report: Report, { userId, title, content, publishAT }: IUpdateReportDto): Promise<Report> {
         const user: User | null = await this.userRepository.findOneById(userId);
         if (user === null) {
             throw new ServiceValidationException(`User with id ${userId} not found`);
         }
+        const timestamp = (Date.now() / 1000) | 0;
+        const statusValue = publishAT < timestamp ? ReportStatus.published : ReportStatus.draft;
 
         report.userId = userId;
         report.title = title;
         report.content = content;
-        report.updatedAT = (Date.now() / 1000) | 0;
+        report.updatedAT = timestamp;
+        report.status = statusValue;
+        report.publishAT = timestamp;
 
         await this.reportRepository.persist(report);
 

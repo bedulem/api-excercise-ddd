@@ -1,3 +1,4 @@
+import { getUserValidator } from "application/api/validator/user/getUserValidator";
 import { TYPES } from "application/config/ioc/types";
 import { User } from "domain/entity/User";
 import { IUserRepository } from "domain/repository/UserRepository";
@@ -30,7 +31,7 @@ import { BaseHttpController, controller, httpGet, request, response } from "inve
 export class GetUserController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
 
-    @httpGet("/:id" /*, ...getUserValidator*/)
+    @httpGet("/:id", ...getUserValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.params.id);
         if (user === null) {

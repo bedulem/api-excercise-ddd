@@ -1,3 +1,4 @@
+import { putUserValidator } from "application/api/validator/user/putUserValidator";
 import { TYPES } from "application/config/ioc/types";
 import { User } from "domain/entity/User";
 import { IUserRepository } from "domain/repository/UserRepository";
@@ -43,7 +44,7 @@ export class PutUserController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
     @inject(TYPES.UpdateUserService) private readonly updateUserService: IUpdateUserService;
 
-    @httpPut("/:id" /*, TYPES.AuthorizationMiddleware, ...putUserValidator*/)
+    @httpPut("/:id", TYPES.AuthorizationMiddleware, ...putUserValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.params.id);
         if (user === null) {

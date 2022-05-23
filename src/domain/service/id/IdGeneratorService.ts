@@ -1,3 +1,5 @@
+import { TYPES } from "application/config/ioc/types";
+import { provideSingleton } from "infrastructure/inversify/CustomProviders";
 /**
  * @swagger
  * components:
@@ -14,6 +16,7 @@
  *         value: "Mr. Robot"
  *
  */
+
 export interface IIdGeneratorService {
-    id: string;
+    getId(): string;
 }

@@ -1,3 +1,4 @@
+import { deleteUserValidator } from "application/api/validator/user/deleteUserValidator";
 import { TYPES } from "application/config/ioc/types";
 import { User } from "domain/entity/User";
 import { IUserRepository } from "domain/repository/UserRepository";
@@ -29,7 +30,7 @@ import { BaseHttpController, controller, httpDelete, request, response } from "i
 export class DeleteUserController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
 
-    @httpDelete("/:id" /*, TYPES.AuthorizationMiddleware, ...deleteUserValidator*/)
+    @httpDelete("/:id", TYPES.AuthorizationMiddleware, ...deleteUserValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.params.id);
         if (user === null) {

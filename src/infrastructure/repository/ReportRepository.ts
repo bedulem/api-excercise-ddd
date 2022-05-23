@@ -16,7 +16,12 @@ export class ReportRepository extends MongoRepository implements IReportReposito
         this.collection = ConnectionManager.getCollection(collectionName);
     }
 
-    public async findAllReports(userId?: string, dateFrom?: number, dateTo?: number): Promise<Report[]> {
+    public async findAllReports(
+        userId?: string,
+        dateFrom?: number,
+        dateTo?: number,
+        draftTo?: number
+    ): Promise<Report[]> {
         const filter: { [key: string]: unknown } = {};
         if (dateFrom && dateTo) {
             filter.createdAT = { $gte: dateFrom, $lte: dateTo };
@@ -24,6 +29,9 @@ export class ReportRepository extends MongoRepository implements IReportReposito
             filter.createdAT = { $gte: dateFrom };
         } else if (dateTo) {
             filter.createdAT = { $lte: dateTo };
+        }
+        if (draftTo) {
+            filter.publishAT = { $lte: draftTo };
         }
         if (userId) {
             filter.userId = userId;
