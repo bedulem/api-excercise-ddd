@@ -12,11 +12,7 @@ export class PublishReports implements ICommand {
     @inject(TYPES.PublishReportsService) private readonly publishReportsService: IPublishReportsService;
 
     public async execute(args: string[]): Promise<void> {
-        // if (args.length === 0) {
-        //     throw new Error("Missing HelloCommand argument.");
-        // }
-
-        await this.publishReportsService.publish();
-        writeSuccess(`Update finished`);
+        const message = await this.publishReportsService.publish();
+        writeSuccess(`${message}`);
     }
 }

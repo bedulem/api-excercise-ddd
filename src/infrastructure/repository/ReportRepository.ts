@@ -1,5 +1,5 @@
 import { TYPES } from "application/config/ioc/types";
-import { Report } from "domain/entity/Report";
+import { Report, ReportStatus } from "domain/entity/Report";
 import { IReportRepository } from "domain/repository/ReportRepository";
 import { provideSingleton } from "infrastructure/inversify/CustomProviders";
 import { IConnectionManager } from "infrastructure/mongodb/ConnectionManager";
@@ -32,6 +32,7 @@ export class ReportRepository extends MongoRepository implements IReportReposito
         }
         if (draftTo) {
             filter.publishAT = { $lte: draftTo };
+            filter.status = ReportStatus.draft;
         }
         if (userId) {
             filter.userId = userId;

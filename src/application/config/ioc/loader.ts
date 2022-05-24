@@ -42,3 +42,4 @@ import "infrastructure/repository/ReportRepository";
 
 // commands
 import "application/cli/commands/HelloCommand";
+import "application/cli/commands/PublishReports";

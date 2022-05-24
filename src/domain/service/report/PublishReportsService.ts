@@ -44,8 +44,7 @@ export class PublishReportsService implements IPublishReportsService {
         );
 
         if (reports === null) {
-            //throw new ServiceValidationException(`Nothings to publish`);
-            return "no hay reportes";
+            return "no reports to publish";
         }
 
         for (const report of reports) {
@@ -53,7 +52,6 @@ export class PublishReportsService implements IPublishReportsService {
             report.status = ReportStatus.published;
             await this.reportRepository.persist(report);
         }
-        const reportes: string = reports.toString();
-        return reportes;
+        return "Update finished";
     }
 }

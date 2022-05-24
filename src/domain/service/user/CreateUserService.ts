@@ -42,8 +42,6 @@ export class CreateUserService implements ICreateUserService {
 
     @inject(TYPES.UuidGenerator) private readonly uuidGenerator: IIdGeneratorService;
 
-    private readonly uuidgenerator: IIdGeneratorService;
-
     public async create({ email, name, age, country }: IcreateUserDto): Promise<User> {
         const timestamp = (Date.now() / 1000) | 0;
 

@@ -1,4 +1,4 @@
-import { Report } from "../entity/Report";
+import { Report, ReportStatus } from "../entity/Report";
 
 export interface IReportRepository {
     persist(report: Report): Promise<void>;
