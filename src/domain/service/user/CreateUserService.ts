@@ -35,12 +35,12 @@ export interface ICreateUserService {
 @provideSingleton(TYPES.CreateUserService)
 export class CreateUserService implements ICreateUserService {
     private readonly userRepository: IUserRepository;
+    private readonly uuidGenerator: IIdGeneratorService
 
-    constructor(@inject(TYPES.UserRepository) userRepository: IUserRepository) {
+    constructor(@inject(TYPES.UserRepository) userRepository: IUserRepository,@inject(TYPES.UuidGenerator) uuidGenerator: IIdGeneratorService) {
         this.userRepository = userRepository;
+        this.uuidGenerator = uuidGenerator;
     }
-
-    @inject(TYPES.UuidGenerator) private readonly uuidGenerator: IIdGeneratorService;
 
     public async create({ email, name, age, country }: IcreateUserDto): Promise<User> {
         const timestamp = (Date.now() / 1000) | 0;

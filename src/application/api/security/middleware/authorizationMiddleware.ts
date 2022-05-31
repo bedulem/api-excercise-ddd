@@ -4,7 +4,6 @@ import { provideSingleton } from "infrastructure/inversify/CustomProviders";
 import { inject } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 import { NextFunction, Request, Response } from "express";
-import { AppException } from "application/exception/AppException";
 import { AuthenticationException } from "../AuthenticationException/authenticationException";
 
 @provideSingleton(TYPES.AuthorizationMiddleware)

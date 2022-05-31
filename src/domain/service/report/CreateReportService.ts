@@ -39,12 +39,12 @@ export interface ICreateReportService {
 export class CreateReportService implements ICreateReportService {
     private readonly reportRepository: IReportRepository;
 
-    constructor(@inject(TYPES.ReportRepository) reportRepository: IReportRepository) {
+    constructor(@inject(TYPES.ReportRepository) reportRepository: IReportRepository,@inject(TYPES.UserRepository) private readonly userRepository: IUserRepository,@inject(TYPES.UuidGenerator) private readonly uuidGenerator: IIdGeneratorService) {
         this.reportRepository = reportRepository;
+        this.userRepository = userRepository;
+        this.uuidGenerator = uuidGenerator;
     }
 
-    @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
-    @inject(TYPES.UuidGenerator) private readonly uuidGenerator: IIdGeneratorService;
 
     public async create({ userId, title, content, publishAT }: ICreateReportDto): Promise<Report> {
         const user: User | null = await this.userRepository.findOneById(userId);

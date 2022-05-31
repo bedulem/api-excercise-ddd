@@ -6,7 +6,7 @@ import { IConnectionManager } from "infrastructure/mongodb/ConnectionManager";
 import { MongoRepository } from "infrastructure/mongodb/MongoRepository";
 import { inject } from "inversify";
 
-const collectionName: string = "report";
+export const collectionName: string = "report";
 
 @provideSingleton(TYPES.ReportRepository)
 export class ReportRepository extends MongoRepository implements IReportRepository {

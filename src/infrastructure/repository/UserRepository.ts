@@ -6,7 +6,7 @@ import { IConnectionManager } from "infrastructure/mongodb/ConnectionManager";
 import { MongoRepository } from "infrastructure/mongodb/MongoRepository";
 import { inject } from "inversify";
 
-const collectionName: string = "user";
+export const collectionName: string = "user";
 
 @provideSingleton(TYPES.UserRepository)
 export class UserRepository extends MongoRepository implements IUserRepository {

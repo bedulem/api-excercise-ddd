@@ -12,6 +12,8 @@ import "application/api/controller/user/PostUserController";
 import "application/api/controller/user/DeleteUserController";
 import "application/api/controller/user/GetUserController";
 import "application/api/controller/user/GetUsersController";
+import "application/api/controller/user/PutUserController";
+
 import "application/api/controller/report/PutReportController";
 import "application/api/controller/report/PostReportController";
 import "application/api/controller/report/DeleteReportController";

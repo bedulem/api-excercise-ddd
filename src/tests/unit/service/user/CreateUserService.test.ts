@@ -1,19 +1,22 @@
+import { IIdGeneratorService } from "domain/service/id/IdGeneratorService";
 import { CreateUserService } from "domain/service/user/CreateUserService";
 import { IConnectionManager } from "infrastructure/mongodb/ConnectionManager";
 import { UserRepository } from "infrastructure/repository/UserRepository";
 import { UuidGenerator } from "infrastructure/uuid/UuidGenerator";
 
 jest.mock("infrastructure/repository/UserRepository");
-jest.mock("infrastructure/uuid/UuidGenerator", ()=>({
+
+jest.mock("infrastructure/uuid/UuidGenerator", ()=> ({
     UuidGenerator: jest.fn().mockImplementation(()=> ({
-        getId: () => {return "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"}
+        getId: () => "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
     })),
 }));
 
 describe("Create User Service", ()=>{
     const repository = new UserRepository({} as IConnectionManager);
-    const service = new CreateUserService(repository);
-    const uuid = new UuidGenerator();
+    const uuidGenerator = new UuidGenerator();
+    
+    const service = new CreateUserService(repository,uuidGenerator);
 
     it("Success", async () => {
         const user = await service.create({
