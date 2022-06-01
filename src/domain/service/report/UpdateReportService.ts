@@ -36,12 +36,15 @@ export interface IUpdateReportService {
 @provideSingleton(TYPES.UpdateReportService)
 export class UpdateReportService implements IUpdateReportService {
     private readonly reportRepository: IReportRepository;
+    private readonly userRepository: IUserRepository;
 
-    constructor(@inject(TYPES.ReportRepository) reportRepository: IReportRepository) {
+    constructor(
+        @inject(TYPES.ReportRepository) reportRepository: IReportRepository,
+        @inject(TYPES.UserRepository) userRepository: IUserRepository
+    ) {
         this.reportRepository = reportRepository;
+        this.userRepository = userRepository;
     }
-
-    @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
 
     public async update(report: Report, { userId, title, content, publishAT }: IUpdateReportDto): Promise<Report> {
         const user: User | null = await this.userRepository.findOneById(userId);
@@ -56,7 +59,7 @@ export class UpdateReportService implements IUpdateReportService {
         report.content = content;
         report.updatedAT = timestamp;
         report.status = statusValue;
-        report.publishAT = timestamp;
+        report.publishAT = publishAT;
 
         await this.reportRepository.persist(report);
 
