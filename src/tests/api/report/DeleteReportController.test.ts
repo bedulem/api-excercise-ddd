@@ -6,7 +6,7 @@ import e from "express";
 import { Container } from "inversify";
 import { Server } from "http";
 import { collectionName } from "infrastructure/repository/ReportRepository";
-import { collectionName as  userCollectionName} from "infrastructure/repository/UserRepository";
+import { collectionName as userCollectionName } from "infrastructure/repository/UserRepository";
 import { examplesUser, examplesReport, tokenTest } from "tests/Helpers";
 
 describe("Delete Report", () => {
@@ -41,13 +41,19 @@ describe("Delete Report", () => {
     });
 
     it("Success", async () => {
-        const response = await request.delete("/reports/209156be-c4fb-41ea-b1b4-efe1671c5836").send().set({authorization: tokenTest});
+        const response = await request
+            .delete("/reports/209156be-c4fb-41ea-b1b4-efe1671c5836")
+            .send()
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(204);
     });
 
     it("Fails because report does not exist", async () => {
-        const response = await request.delete("/reports/209156be-c4fb-41ea-b1b4-efe1671c5800").send().set({authorization: tokenTest});
+        const response = await request
+            .delete("/reports/209156be-c4fb-41ea-b1b4-efe1671c5800")
+            .send()
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(404);
         expect(response.body.error).toBe("Report with id 209156be-c4fb-41ea-b1b4-efe1671c5800 not found");

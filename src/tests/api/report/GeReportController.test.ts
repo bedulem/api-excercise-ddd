@@ -7,7 +7,7 @@ import { Container } from "inversify";
 import { Server } from "http";
 import { collectionName } from "infrastructure/repository/ReportRepository";
 import { collectionName as userCollectionName } from "infrastructure/repository/UserRepository";
-import { examplesUser , examplesReport } from "tests/Helpers";
+import { examplesUser, examplesReport } from "tests/Helpers";
 
 describe("Get Report", () => {
     let app: e.Application, container: Container;
@@ -31,7 +31,6 @@ describe("Get Report", () => {
             .get<ConnectionManager>(TYPES.ConnectionManager)
             .getCollection(collectionName)
             .insertMany(examplesReport);
-
     });
 
     afterAll(async () => {

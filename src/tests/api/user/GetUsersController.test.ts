@@ -43,7 +43,7 @@ describe("Get Users", () => {
     });
 
     it("Success - find by age ", async () => {
-        const response = await request.get("/users").query({ age:49 }).send();
+        const response = await request.get("/users").query({ age: 49 }).send();
 
         expect(response.status).toBe(200);
         expect(response.body.length).toStrictEqual(1);

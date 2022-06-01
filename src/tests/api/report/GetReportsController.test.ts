@@ -23,16 +23,14 @@ describe("Get Reports", () => {
         request = supertest(app);
 
         await container
-        .get<ConnectionManager>(TYPES.ConnectionManager)
-        .getCollection(userCollectionName)
-        .insertMany(examplesUser);
+            .get<ConnectionManager>(TYPES.ConnectionManager)
+            .getCollection(userCollectionName)
+            .insertMany(examplesUser);
 
         await container
             .get<ConnectionManager>(TYPES.ConnectionManager)
             .getCollection(collectionName)
             .insertMany(examplesReport);
-
-
     });
 
     afterAll(async () => {
@@ -52,7 +50,7 @@ describe("Get Reports", () => {
     });
 
     it("Success - find by dateFrom ", async () => {
-        const response = await request.get("/reports").query({ dateFrom: 1649342223}).send();
+        const response = await request.get("/reports").query({ dateFrom: 1649342223 }).send();
 
         expect(response.status).toBe(200);
         expect(response.body.length).toStrictEqual(1);

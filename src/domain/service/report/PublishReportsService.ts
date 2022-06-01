@@ -23,7 +23,7 @@ import { IUpdateUserService } from "../user/UpdateUserService";
  */
 
 export interface IPublishReportsService {
-    publish(): Promise<string>;
+    publish(): Promise<Report[] | null>;
 }
 
 @provideSingleton(TYPES.PublishReportsService)
@@ -34,7 +34,7 @@ export class PublishReportsService implements IPublishReportsService {
         this.reportRepository = reportRepository;
     }
 
-    public async publish(): Promise<string> {
+    public async publish(): Promise<Report[] | null> {
         const timestamp = (Date.now() / 1000) | 0;
         const reports: Report[] = await this.reportRepository.findAllReports(
             undefined,
@@ -44,7 +44,7 @@ export class PublishReportsService implements IPublishReportsService {
         );
 
         if (reports.length === 0) {
-            return "no reports to publish";
+            return null;
         }
 
         for (const report of reports) {
@@ -52,6 +52,6 @@ export class PublishReportsService implements IPublishReportsService {
             report.status = ReportStatus.published;
             await this.reportRepository.persist(report);
         }
-        return "Update finished";
+        return reports;
     }
 }

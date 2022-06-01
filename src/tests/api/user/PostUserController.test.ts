@@ -8,7 +8,6 @@ import { Container } from "inversify";
 import supertest from "supertest";
 import { examplesUser, tokenTest } from "tests/Helpers";
 
-
 describe("Post User", () => {
     let app: e.Application, container: Container;
     let request: supertest.SuperTest<supertest.Test>;
@@ -35,29 +34,32 @@ describe("Post User", () => {
     });
 
     it("Success", async () => {
-        const response = await request.post("/users").send(
-    {
-        email: "arya@winterfell.com", 
-        name: "arya stark", 
-        age: 16, 
-        country: "AR",
-        
-    }).set({authorization: tokenTest})
+        const response = await request
+            .post("/users")
+            .send({
+                email: "arya@winterfell.com",
+                name: "arya stark",
+                age: 16,
+                country: "AR",
+            })
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(201);
         expect(response.body.name).toStrictEqual("arya stark");
         expect(response.body.age).toStrictEqual(16);
         expect(response.body.country).toStrictEqual("AR");
-
     });
 
     it("Unauthorized Fail", async () => {
-        const response = await request.post("/users").send({
-        email: "arya@winterfell.com", 
-        name: "arya stark", 
-        age: 16, 
-        country: "AR", 
-    }).set({authorization: ""})
+        const response = await request
+            .post("/users")
+            .send({
+                email: "arya@winterfell.com",
+                name: "arya stark",
+                age: 16,
+                country: "AR",
+            })
+            .set({ authorization: "" });
 
         expect(response.status).toBe(401);
         expect(response.body.error).toBe("Invalid Token");

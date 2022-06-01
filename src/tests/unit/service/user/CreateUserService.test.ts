@@ -6,31 +6,29 @@ import { UuidGenerator } from "infrastructure/uuid/UuidGenerator";
 
 jest.mock("infrastructure/repository/UserRepository");
 
-jest.mock("infrastructure/uuid/UuidGenerator", ()=> ({
-    UuidGenerator: jest.fn().mockImplementation(()=> ({
+jest.mock("infrastructure/uuid/UuidGenerator", () => ({
+    UuidGenerator: jest.fn().mockImplementation(() => ({
         getId: () => "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
     })),
 }));
 
-describe("Create User Service", ()=>{
+describe("Create User Service", () => {
     const repository = new UserRepository({} as IConnectionManager);
     const uuidGenerator = new UuidGenerator();
-    
-    const service = new CreateUserService(repository,uuidGenerator);
+
+    const service = new CreateUserService(repository, uuidGenerator);
 
     it("Success", async () => {
         const user = await service.create({
             email: "tyron@winterfell.com",
             name: "tyron",
             age: 46,
-            country: "AR"
+            country: "AR",
         });
         expect(repository.persist).toHaveBeenCalledTimes(1);
         expect(user.email).toEqual("tyron@winterfell.com");
         expect(user.name).toEqual("tyron");
         expect(user.age).toEqual(46);
         expect(user.country).toEqual("AR");
-        
-    })
-
+    });
 });

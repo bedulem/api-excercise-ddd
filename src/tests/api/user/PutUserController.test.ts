@@ -34,11 +34,14 @@ describe("Put User", () => {
     });
 
     it("Success", async () => {
-        const response = await request.put("/users/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d").send({ 
-            name: "new tyrion",
-            age: 46,
-            country: "AR",
-        }).set({authorization: tokenTest});
+        const response = await request
+            .put("/users/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d")
+            .send({
+                name: "new tyrion",
+                age: 46,
+                country: "AR",
+            })
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(200);
         expect(response.body.id).toStrictEqual(examplesUser[0].id);
@@ -46,11 +49,14 @@ describe("Put User", () => {
     });
 
     it("Fails because example does not exist", async () => {
-        const response = await request.put("/users/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3d0000").send({ 
-            name: "new tyrion" ,
-            age: 46,
-            country: "AR",
-        }).set({authorization: tokenTest});
+        const response = await request
+            .put("/users/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3d0000")
+            .send({
+                name: "new tyrion",
+                age: 46,
+                country: "AR",
+            })
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(404);
     });

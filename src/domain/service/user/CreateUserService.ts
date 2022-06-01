@@ -35,9 +35,12 @@ export interface ICreateUserService {
 @provideSingleton(TYPES.CreateUserService)
 export class CreateUserService implements ICreateUserService {
     private readonly userRepository: IUserRepository;
-    private readonly uuidGenerator: IIdGeneratorService
+    private readonly uuidGenerator: IIdGeneratorService;
 
-    constructor(@inject(TYPES.UserRepository) userRepository: IUserRepository,@inject(TYPES.UuidGenerator) uuidGenerator: IIdGeneratorService) {
+    constructor(
+        @inject(TYPES.UserRepository) userRepository: IUserRepository,
+        @inject(TYPES.UuidGenerator) uuidGenerator: IIdGeneratorService
+    ) {
         this.userRepository = userRepository;
         this.uuidGenerator = uuidGenerator;
     }

@@ -34,13 +34,19 @@ describe("Delete User", () => {
     });
 
     it("Success", async () => {
-        const response = await request.delete("/users/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed").send().set({authorization: tokenTest});
+        const response = await request
+            .delete("/users/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed")
+            .send()
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(204);
     });
 
     it("Fails because user does not exist", async () => {
-        const response = await request.delete("/users/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bee").send().set({authorization: tokenTest});
+        const response = await request
+            .delete("/users/1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bee")
+            .send()
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(404);
         expect(response.body.error).toBe("User with id 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bee not found");

@@ -41,13 +41,15 @@ describe("Put Report", () => {
     });
 
     it("Success", async () => {
-        const response = await request.put("/reports/8b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d").send({ 
-            userId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            title:"new title report",
-            content: "modified lorem ipsum",
-            PublishAT: 1649342221 ,
-            
-        }).set({authorization: tokenTest});
+        const response = await request
+            .put("/reports/8b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d")
+            .send({
+                userId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                title: "new title report",
+                content: "modified lorem ipsum",
+                PublishAT: 1649342221,
+            })
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(200);
         expect(response.body.id).toStrictEqual(examplesReport[0].id);
@@ -56,12 +58,15 @@ describe("Put Report", () => {
     });
 
     it("Fails because report does not exist", async () => {
-        const response = await request.put("/reports/8b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb00").send({ 
-            userId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-            title:"new title report",
-            content: "modified lorem ipsum",
-            PublishAT: 1649342221 ,
-        }).set({authorization: tokenTest});
+        const response = await request
+            .put("/reports/8b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb00")
+            .send({
+                userId: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+                title: "new title report",
+                content: "modified lorem ipsum",
+                PublishAT: 1649342221,
+            })
+            .set({ authorization: tokenTest });
 
         expect(response.status).toBe(404);
         expect(response.body.error).toBe("Report with id 8b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb00 not found");

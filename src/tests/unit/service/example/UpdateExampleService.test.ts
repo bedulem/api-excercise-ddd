@@ -7,10 +7,9 @@ import { examples } from "tests/Helpers";
 
 jest.mock("infrastructure/repository/ExampleRepository");
 
-
 describe("Update Example Service", () => {
     const repository = new ExampleRepository({} as IConnectionManager);
-    
+
     const service = new UpdateExampleService(repository);
 
     it("Success", async () => {

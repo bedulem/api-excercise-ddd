@@ -10,27 +10,24 @@ jest.mock("infrastructure/repository/ReportRepository");
 
 jest.mock("infrastructure/repository/UserRepository", () => ({
     UserRepository: jest.fn().mockImplementation(() => ({
-        findOneById: (userId: string) =>
-            userId === "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
-                ? examplesUser[0]
-                : null,
+        findOneById: (userId: string) => (userId === "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d" ? examplesUser[0] : null),
         persist: () => {},
     })),
 }));
 
-jest.mock("infrastructure/uuid/UuidGenerator", ()=> ({
-    UuidGenerator: jest.fn().mockImplementation(()=> ({
+jest.mock("infrastructure/uuid/UuidGenerator", () => ({
+    UuidGenerator: jest.fn().mockImplementation(() => ({
         getId: () => "8b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
     })),
 }));
 
-describe("Create Report Service", ()=>{
+describe("Create Report Service", () => {
     const repository = new ReportRepository({} as IConnectionManager);
     const userRepository = new UserRepository({} as IConnectionManager);
     const uuidGenerator = new UuidGenerator();
 
     //1653938700
-    const service = new CreateReportService(repository,userRepository,uuidGenerator);
+    const service = new CreateReportService(repository, userRepository, uuidGenerator);
 
     it("Success", async () => {
         const report = await service.create({
@@ -44,6 +41,5 @@ describe("Create Report Service", ()=>{
         expect(report.content).toEqual("Lorem ipsum");
         expect(report.publishAT).toEqual(1649342221);
         expect(report.status).toEqual(ReportStatus.published);
-    })
-
+    });
 });
