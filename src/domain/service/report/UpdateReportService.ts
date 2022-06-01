@@ -58,7 +58,7 @@ export class UpdateReportService implements IUpdateReportService {
         report.content = content;
         report.updatedAT = timestamp;
         report.status = statusValue;
-        report.publishAT = timestamp;
+        report.publishAT = publishAT;
 
         await this.reportRepository.persist(report);
 

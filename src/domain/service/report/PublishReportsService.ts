@@ -43,7 +43,7 @@ export class PublishReportsService implements IPublishReportsService {
             timestamp
         );
 
-        if (reports === null) {
+        if (reports.length === 0) {
             return "no reports to publish";
         }
 
